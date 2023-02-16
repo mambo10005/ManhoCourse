@@ -1,0 +1,162 @@
+
+<!-- saved from url=(0119)https://www.pythonanywhere.com/user/ManhoCourse/files/home/ManhoCourse/ManhoCourse/web_dev/templates/web_dev/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+    </head>
+
+    <body>
+        {% extends "home/base_generic.html" %}
+
+        {% block content %}
+        <h1>Django와 PythonAnywhere를 사용한 Web Devlopment</h1>
+            다음에 나열된 일련의 과정들을 통하여 Django app을 개발하고 PythonAnywhere의 web hosting service를 이용할 수 있다.
+
+
+            <h2>PythonAnywhere account setup</h2>
+                <p>PythonAnywhere를 이용하여 Django App을 무료로 hosting 할 수 있다. 아직 free account를 setup 하지 않았다면
+                  <a href="http://www.pythonanywhere.com/" target="_blank">Python Anywhere site</a>를 방문하여 free account를
+                  setup 하도록 한다. free account로는 하나의 사이트를 hosting 할 수 있으며 site address는
+                  user_account_name.pythonanywhere.com으로 고정되므로 account name을 사이트 이름으로 맞추어 지정하도록 하자.
+                </p>
+
+
+            <h2>Django app creation</h2>
+                <p>
+                  </p><h3>virtual environment setup</h3>
+                    <p>
+                        PythonAnywhere의 Dashboard에서 Bash console을 열도록 한다. Console이 열리면 다음의 command를 통하여
+                        virtual environment를 만들고 Django를 install 하도록 하자.
+                        </p><pre>                            mkvirtualenv django4 --python=/usr/bin/python3.10
+                            pip install django
+                        </pre>
+                        위의 명령어를 통하여 virtual environment가 제대로 생성되고 활성화되면 command prompt에 다음과 같이
+                        virtual environment의 이름이 표시된다.
+                        <pre>                            (django4)17:18 ~ $
+                        </pre>
+                        PythonAnywhere의 console을 이용하여 Django app 개발할 때 항상 virtual environment가 제대로 활성화되어 있는지
+                        확인하도록 하자. 만약 virtual environment가 활성화되지 않았다면 다음의 명령어를 통하여 활성화시키도록 한다.
+                        <pre>                            workon django4
+                        </pre>
+                        또한 Django가 virtual environment에 제대로 install 되었는지 다음의 명령어로 install된 Django version을
+                        확인해 보자.
+                        <pre>                            python -m django --version
+                        </pre>
+                    <p></p>
+
+                    <h3>Django project creation</h3>
+                    <p>
+                        virtual environment가 활성화되어있는 console에서 다음의 명령어를 통하여 Django project를 만들도록 한다.
+                        </p><pre>                            django-admin startproject ManhoCourse
+                        </pre>
+                        위의 명령어가 제대로 실행되면 현재의 디렉토리에 ManhoCourse라는 디렉토리가 만들어진 것을 확인할 수 있다.
+                    <p></p>
+
+                <h3>PythonAnywhere에 web app 만들고 세팅하기</h3>
+                    <p>
+                        PythonAnywhere의 Dashboard에서 <em>Web</em> tab으로 이동하도록 하자. <em>Add a new web app</em>을
+                        클릭하고 <em>Manual configuration</em>과 <em>Python 3.10</em>을 선택하도록 하자. <em>next</em>를
+                        누르면 web app configuration 페이지가 뜨게 된다.
+                    </p>
+                    <p>
+                        <em>Virtualenv section</em>으로 가서 virtual environment 이름인 <em>django4</em>를 입력하고 confirm을
+                        누르면 다음과 같은 virtual environment의 full path가 입력되는 것을 볼 수 있다:
+                        <em>/home/myusername/.virtualenvs/django4</em>.
+                    </p>
+                    <p>
+                        다음 단계로 <em>edit your wsgi file</em> 링크를 찾아 링크를 눌러 wsgi.py 파일을 수정하도록 한다.
+                        디폴트로 적혀있는 내용을 모두 지우고 다음의 코드를 복사하여 붙여놓도록 하자.
+                        </p><pre>                            import os
+                            import sys
+
+                            path = os.path.expanduser('~/ManhoCourse')
+                            if path not in sys.path:
+                                sys.path.insert(0, path)
+                            os.environ['DJANGO_SETTINGS_MODULE'] = 'ManhoCourse.settings'
+                            from django.core.wsgi import get_wsgi_application
+                            from django.contrib.staticfiles.handlers import StaticFilesHandler
+                            application = StaticFilesHandler(get_wsgi_application())
+                        </pre>
+                    <p></p>
+                    <p>
+                        마지막으로 PythonAnywhere의 Dashboard에서 <em>Files</em> 탭으로 가서 <em>ManhoCourse/settings.py</em> 파일을
+                        수정하도록 하자. <em>settings.py</em> 파일을 열고 <em>ALLOWED_HOSTS</em>를 찾아 다음과 같이 수정한다.
+                        </p><pre>                            ALLOWED_HOSTS = ['*']
+                        </pre>
+                        PythonAnywhere의 Dashboard에서 <em>Web</em> 탭으로 이동하여 "Reload" 버튼을 누르도록 하자.
+                        앞으로도 Django project에 수정을 가할 경우 "Reload" 버튼을 통하여 수정 사항을 publish 해야 한다.
+                        Reloading이 끝난 후 site를 방문하면 Django 시작페이지가 제대로 작동함을 확인할 수 있을 것이다.
+                    <p></p>
+                <p></p>
+
+            <h2>GitHub 연결하기</h2>
+            <p>
+                코드 파일들을 잘 관리하기 위하여 GitHub이나 Mercurial, Subversion과 같은 source code control system을
+                이용하는 것이 바람직하다. 본 강의에서는 GitHub을 활용하여 보자. PythonAnywhere는 <em>Bash Console</em>에서
+                git 명령어를 제공하여 주므로 이를 이용하여 해당 repository를 clone, push, pull 할 수 있다.
+            </p>
+            <p>
+                GitHub에  GitHub에서 제공하는
+                <a href="https://docs.github.com/en/get-started/importing-your-projects-to-github/importing-source-code-to-github/adding-locally-hosted-code-to-github" target="_blank">가이드</a>를 따라
+                GitHub에 해당 repository를 생성하고 PythonAnywhere에서 작업한 Django 프로젝트의 코드를 push 하도록 하자.
+            </p>
+
+            <h2>Home 페이지 만들기</h2>
+            <p>
+                Home 페이지는 데이터베이스나 Model이 필요없는 static webpage이지만 여기서는 Django framework에 맞추어
+                app으로 생성하도록 한다. Home app을 생성하기 위해 manage.py가 위치한 directory에서 <em>Bash Console</em>을
+                열고 다음의 명령어를 실행하도록 한다.
+                <pre>
+                    python manage.py startapp home
+                </pre>
+                명령어가 실행되면 <em>home</em> directory가 생성된다.
+            </p>
+            <p>
+                Django의 template system을 활용하기 위하여, 생성된 <em>home</em> directory에 <em>templates</em> directory를
+                생성하도록 한다. 생성된 <em>templates</em> directory에 <em>home</em> directory를 생성하자. 이렇게 생성된
+                <em>home/templates/home</em> directory에 <em>home</em> app이 사용할 template들을 보관할 것이다. template
+                directory 구조가 home이라는 directory를 반복적으로 가지고 있어 불편할 수 있지만 template들을 <em>home</em>
+                subdirectory가 아닌 <em>templates</em> directory에 바로 보관하면 차후 다른 app에서 동일한 이름의 template을
+                사용할 때 문제가 생길 수 있으므로 app 이름을 갖는 subdirectory를 만들어 그 곳에 template을 보관하는 것이 바람직하다.
+                이렇게 생성된 template directory에 <em>index.html</em> file을 생성하고 웹페이지 작업을 하도록 한다.
+            </p>
+            <p>
+                이제 이렇게 생성된 template <em>index.html</em>을 잘 접근할 수 있도록 해야한다. 첫번째 작업은 home view를 수정하는
+                것이다. <em>home/views.py</em> 파일을 열어 다음과 같이 수정하도록 하자.
+                <pre>
+                    from django.shortcuts import render
+
+                    def index(request):
+                        return render(request, 'home/index.html')
+                </pre>
+                이렇게 수정된 view로 해당 template을 접근하기 위해서는 Django의 URL configuration을 하여야 한다.
+                Django는 URLconf라고 불리우는 python module을 통하여 app URL을 디자인한다. 우선, <em>home/urls.py</em> file을
+                생성하고 다음과 같은 수정을 하자.
+                <pre>
+                    from django.urls import path
+
+                    from . import views
+
+                    app_name = 'home'
+                    urlpatterns = [
+                        path('', views.index, name='index'),
+                    ]
+                </pre>
+                다음 단계로 할 일은 root URLconf 파일을 수정하는 것이다. <em>ManhoCourse/urls.py</em> file을 열고 다음과 같이
+                수정한다.
+                <pre>
+                    from django.contrib import admin
+                    from django.urls import include, path
+
+                    urlpatterns = [
+                        path('home/', include('home.urls')),
+                        path('admin/', admin.site.urls),
+                    ]
+                </pre>
+                PythonAnywhere의 Dashboard에서 <em>Web</em> 탭으로 이동하여 "Reload" 버튼을 누르도록 하자.
+                Reloading이 끝난 후 <em>http://[site address]/home</em>에 방문하여 home page가 제대로 로딩되는지 확인하자.
+            </p>
+
+
+        {% endblock %}
+    
+</body></html>

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.redirects",
+    "home.apps.HomeConfig",
+    "web_dev.apps.WebDevConfig",
 ]
 
 MIDDLEWARE = [
