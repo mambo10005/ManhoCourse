@@ -1,3 +1,8 @@
+.fakeimg {
+    height: 200px;
+    background: #aaa;
+}
+
 .sidebar-nav {
   margin-top: 20px;
   padding: 0;
@@ -17,4 +22,8 @@ details > p {
   padding: 4px;
   margin: 0;
   box-shadow: 1px 1px 2px #bbbbbb;
+}
+
+body {
+    font-family: 'Nanum Gothic', sans-serif;
 }

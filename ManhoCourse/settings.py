@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.redirects",
     "home.apps.HomeConfig",
     "web_dev.apps.WebDevConfig",
+    "django_bootstrap5",
 ]
 
 MIDDLEWARE = [
