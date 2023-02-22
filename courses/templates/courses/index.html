@@ -1,0 +1,18 @@
+{% extends "home/base_generic.html" %}
+
+{% block content %}
+  <h1>Course List</h1>
+  <p>
+    Course List:
+    {% if latest_course_list %}
+        <ul>
+        {% for course in latest_course_list %}
+            <li><a href="/courses/{{ course.id }}/">{{ course.course_title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+    <p>Course가 없습니다.</p>
+    {% endif %}
+  </p>
+
+{% endblock %}

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "web_dev.apps.WebDevConfig",
     "django_bootstrap5",
+    "courses.apps.CoursesConfig",
 ]
 
 MIDDLEWARE = [
