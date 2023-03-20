@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import Http404
 from django.shortcuts import render
 from django.template import loader
 
@@ -12,4 +12,8 @@ def index(request):
     return render(request, 'courses/index.html', context)
 
 def detail(request, course_id):
-    return HttpResponse("You are looking at course %s." % course_id)
+    try:
+        course = Course.objects.get(pk=course_id)
+    except Course.DoesNotExist:
+        raise Http404("Course does not exist")
+    return render(request, 'courses/detail.html', {'course': course})

@@ -1,0 +1,20 @@
+{% extends "home/base_generic.html" %}
+
+{% load static %}
+
+{% block content %}
+  <h1>{{course.course_title}}</h1>
+  <p>
+    <h2>개요</h2>
+        <p>
+            {{ course.course_description }}
+        </p>
+    <h2>강의</h2>
+    <ol>
+    {% for session in course.session_set.all %}
+        <li>{{ session.session_title }} - <a href="{% static 'courses/docs/' %}{{ session.session_note }}">강의 {{ session.session_no }} 노트</a> </li>
+    {% endfor %}
+    </ol>
+  </p>
+
+{% endblock %}

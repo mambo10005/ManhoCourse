@@ -7,7 +7,11 @@
     {% if latest_course_list %}
         <ul>
         {% for course in latest_course_list %}
-            <li><a href="/courses/{{ course.id }}/">{{ course.course_title }}</a></li>
+            <li><a href="{% url 'detail' course.id %}">{{ course.course_title }}</a>
+                <p>
+                    {{ course.course_description }}
+                </p>
+            </li>
         {% endfor %}
         </ul>
     {% else %}
